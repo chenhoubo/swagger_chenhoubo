@@ -46,8 +46,8 @@ public class Swagger2 {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				.title("接口展示API")
-				.description("昆山杰普软件科技有限公司，http://www.briup.com")
-				.termsOfServiceUrl("http://www.briup.com")
+				.description("陈厚伯，http://chenhoubo.club:8099/app01/swagger-ui.html")
+				.termsOfServiceUrl("http://chenhoubo.club:8099/app01/swagger-ui.html")
 				.version("1.0")
 				.build();
 	}
