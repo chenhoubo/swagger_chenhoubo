@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.app01.mapper.extend.CourseExtendMapper">
+
+  <select id="selectAll" resultMap="courseExtendResultMap">
+    SELECT * FROM c_course cc;
+  </select>
+  <resultMap id="courseExtendResultMap"
+             type="com.briup.apps.app01.bean.extend.CourseExtend"
+             extends="com.briup.apps.app01.mapper.CourseMapper.BaseResultMap">
+      <association
+              property="teacher"
+              column="teacher_id"
+              select="com.briup.apps.app01.mapper.UserMapper.selectByPrimaryKey">
+      </association>
+  </resultMap>
+
+</mapper>
