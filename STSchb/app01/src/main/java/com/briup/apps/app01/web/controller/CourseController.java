@@ -6,6 +6,8 @@ import com.briup.apps.app01.bean.extend.CourseExtend;
 import com.briup.apps.app01.service.ICourseService;
 import com.briup.apps.app01.util.Message;
 import com.briup.apps.app01.util.MessageUtil;
+
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,76 +31,43 @@ public class CourseController {
         return MessageUtil.success(list);
     }
 
-    /**
-     * @Description: 获取所有用户信息
-     * @Param: []
-     * @return: java.util.List<com.briup.apps.xn_app02.bean.User>
-     * @Author: charles
-     * @Date: 2019-04-18
-     */
+    @ApiOperation("查询所有课程信息")
     @GetMapping("getAllCourses")
     public List<Course> getAllCourses(){
         List<Course> list = courseService.findAll();
         return list;
     }
 
-    /**
-     * @Description: 通过id查找课程信息
-     * @Param: [id]
-     * @return: com.briup.apps.xn_app02.bean.User
-     * @Author: charles
-     * @Date: 2019-04-18
-     */
+    
+    @ApiOperation(value="获取课程详细信息", notes="根据url的id来获取课程详细信息")
+    @ApiImplicitParam(name = "id", value = "课程ID", required = true, dataType = "Long",paramType="query")
     @GetMapping("getById")
     public Course getById(Long id) throws Exception{
         Course course = courseService.findById(id);
         return course;
     }
 
-    /**
-     * @Description: 保存更新
-     * @Param: [user]
-     * @return: java.lang.String
-     * @Author: charles
-     * @Date: 2019-04-18
-     */
+    @ApiOperation("保存更新")
+    @ApiImplicitParam(name = "teacherId", value = "只能填写教师id", required = true, paramType="query")
     @PostMapping("saveOrUpdate")
     public String saveOrUpdate(Course course) throws Exception{
-        courseService.saveOrUpdate(course);
-        return "保存成功！";
+        return courseService.saveOrUpdate(course);
     }
-    /**
-     * @Description: 输出一门课程
-     * @Param: [user]
-     * @return: java.lang.String
-     * @Author: charles
-     * @Date: 2019-04-18
-     */
+    @ApiOperation("根据id删除课程")
     @PostMapping("deleteById")
     public String deleteById(Long id) throws Exception{
         courseService.deleteById(id);
         return "删除成功";
     }
-    /**
-     * @Description: 根据课程id查找出所有的学生
-     * @Param: [user]
-     * @return: java.lang.String
-     * @Author: charles
-     * @Date: 2019-04-18
-     */
-    @PostMapping("findCoursesByUserId")
-    public List<User> findCoursesByUserId(Long id) throws Exception{
-        List<User> list = courseService.findStudentsBycourseId(id);
-        return list;
+    
+    @ApiOperation("删除所有课程")
+    @PostMapping("deleteAllCourse")
+    public String deleteAllCourse() throws Exception{
+        courseService.deleteAllCourse();
+        return "删除成功";
     }
 
-    /**
-     * @Description: 根据课程id查找对应的老师
-     * @Param: [user]
-     * @return: java.lang.String
-     * @Author: charles
-     * @Date: 2019-04-18
-     */
+    @ApiOperation("根据课程id查询对应的老师")
     @PostMapping("findTeacherBycourseId")
     public User findTeacherBycourseId(Long id) throws Exception{
         User user = courseService.findTeacherBycourseId(id);

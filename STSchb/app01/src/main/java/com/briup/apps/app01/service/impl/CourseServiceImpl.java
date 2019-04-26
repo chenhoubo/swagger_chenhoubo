@@ -3,16 +3,13 @@ package com.briup.apps.app01.service.impl;
 import com.briup.apps.app01.bean.*;
 import com.briup.apps.app01.bean.extend.CourseExtend;
 import com.briup.apps.app01.mapper.CourseMapper;
-import com.briup.apps.app01.mapper.StudentCourseMapper;
-import com.briup.apps.app01.mapper.UserMapper;
 import com.briup.apps.app01.mapper.extend.CourseExtendMapper;
 import com.briup.apps.app01.service.ICourseService;
+import com.briup.apps.app01.service.IStudentCourseService;
 import com.briup.apps.app01.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,13 +18,11 @@ public class CourseServiceImpl implements ICourseService {
     @Autowired
     private CourseMapper courseMapper;
     @Autowired
-    private StudentCourseMapper studentCourseMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private CourseExtendMapper courseExtendMapper;
     @Autowired
     private IUserService userService;
     @Autowired
-    private CourseExtendMapper courseExtendMapper;
+    private IStudentCourseService studentCourseService;
 
     @Override
     public List<CourseExtend> findCourseAndTeacher() {
@@ -46,58 +41,34 @@ public class CourseServiceImpl implements ICourseService {
         if(id == null){
             return null;
         }else{
-//            CourseExample example = new CourseExample();
-//            example.createCriteria().andIdEqualTo(id);
             Course course = courseMapper.selectByPrimaryKey(id);
-//            List<Course> list = courseMapper.selectByExample(example);
             return course;
         }
     }
 
     @Override
-    public void saveOrUpdate(Course course) throws Exception {
-        System.out.println("course:" + course);
-        if(course.getId() == null){
+    public String saveOrUpdate(Course course) throws Exception {
+    	User teacher = userService.findById(course.getTeacherId());
+    	if(course.getTeacherId() != null) {
+    		if(teacher == null) {
+    			return "输入的用户id不合法，或者不存在！";
+    		}else if("student".equals(teacher.getType())){
+    			return "您输入的是学生id，请输入教师id";
+    		}
+    	}
+    	if(course.getId() == null){
             courseMapper.insert(course);
-            StudentCourse sc = new StudentCourse();
-            sc.setChooseTime(new Date().getTime());
-
-            CourseExample example = new CourseExample();
-            example.createCriteria().andNameEqualTo(course.getName()).andCreditEqualTo(course.getCredit());
-            List<Course> list =  courseMapper.selectByExample(example);
-
-            sc.setCourseId(list.get(0).getId());
-            sc.setStudentId(course.getTeacherId());
-            sc.setGrade(1);
-            studentCourseMapper.insert(sc);
+            return "插入成功";
         } else {
             courseMapper.updateByPrimaryKey(course);
+            return "更新成功";
         }
     }
 
     @Override
     public void deleteById(Long id) throws Exception {
+    	studentCourseService.deleteSCByCourseId(id);
         courseMapper.deleteByPrimaryKey(id);
-    }
-
-    @Override
-    public List<User> findStudentsBycourseId(Long id){
-        if(id == null){
-            return null;
-        }else{
-            StudentCourseExample example = new StudentCourseExample();
-            example.createCriteria().andCourseIdEqualTo(id);
-            List<StudentCourse> list = studentCourseMapper.selectByExample(example);
-            UserExample example1 = new UserExample();
-            UserExample.Criteria criteria = example1.createCriteria();
-            List<Long> lv = new ArrayList<>();
-            for (StudentCourse sc: list) {
-                lv.add(sc.getStudentId());
-            }
-            criteria.andIdIn(lv);
-            List<User> userList = userMapper.selectByExample(example1);
-            return userList;
-        }
     }
 
     @Override
@@ -110,4 +81,20 @@ public class CourseServiceImpl implements ICourseService {
             return user;
         }
     }
+
+	@Override
+	public void deleteAllCourse() throws Exception {
+		studentCourseService.deleteAllSC();
+		CourseExample example = new CourseExample();
+		example.createCriteria().andIdIsNotNull();
+		courseMapper.deleteByExample(example);
+	}
+
+	@Override
+	public List<Course> findByTeacherId(Long id) throws Exception {
+		CourseExample example = new CourseExample();
+		example.createCriteria().andTeacherIdEqualTo(id);
+		List<Course> list = courseMapper.selectByExample(example);
+		return list;
+	}
 }

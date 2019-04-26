@@ -31,14 +31,38 @@ public interface IUserService {
      * @Author: charles 
      * @Date: 2019-04-18 
      */ 
-    void saveOrUpdate(User user) throws Exception;
+    String saveOrUpdate(User user) throws Exception;
 
     /**
-     * @Description: 根据学生id查找出所有的课程
+     * @Description: 根据学生id查找出该学生的课程
      * @Param: []
      * @return: void
      * @Author: charles
      * @Date: 2019-04-18
      */
-    List<Course> findCoursesByUserId(Long id) throws Exception;
+    List<Course> findCoursesByStudentId(Long id) throws Exception;
+    /**
+     * @Description: 根据教师id查找出该教师的课程
+     * @Param: []
+     * @return: void
+     * @Author: charles
+     * @Date: 2019-04-18
+     */
+    List<Course> findCoursesByTeacherId(Long id) throws Exception;
+    /**
+     * @Description: 删除所有的用户
+     * @Param: []
+     * @return: void
+     * @Author: charles
+     * @Date: 2019-04-26
+     */
+    void deleteAllUser() throws Exception;
+    /**
+     * @Description: 根据id删除用户
+     * @Param: []
+     * @return: void
+     * @Author: charles
+     * @Date: 2019-04-26
+     */
+    void deleteUserByUserId(Long id) throws Exception;
 }

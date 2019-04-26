@@ -36,6 +36,15 @@ public interface ICourseService {
      * @Date: 2019-04-18
      */
     Course findById(Long id) throws Exception;
+    
+    /**
+     * @Description: 根据id查找课程
+     * @Param: []
+     * @return: java.util.List<com.briup.apps.app01.bean.User>
+     * @Author: charles
+     * @Date: 2019-04-18
+     */
+    List<Course> findByTeacherId(Long id) throws Exception;
 
     /**
      * @Description: 插入一门课程
@@ -44,7 +53,7 @@ public interface ICourseService {
      * @Author: charles
      * @Date: 2019-04-18
      */
-    void saveOrUpdate(Course course) throws Exception;
+    String saveOrUpdate(Course course) throws Exception;
 
     /**
      * @Description: 删除一门课程
@@ -54,15 +63,16 @@ public interface ICourseService {
      * @Date: 2019-04-18
      */
     void deleteById(Long id) throws Exception;
-
+    
     /**
-     * @Description: 根据课程id查找所有的学生
+     * @Description: 删除所有课程
      * @Param: []
      * @return: void
      * @Author: charles
      * @Date: 2019-04-18
      */
-    List<User> findStudentsBycourseId(Long id) throws Exception;
+    void deleteAllCourse() throws Exception;
+
 
     /**
      * @Description: 根据课程id查找对应的老师
