@@ -16,6 +16,7 @@ public class BaseController {
     public Message chb(){
         return MessageUtil.success("我是陈厚伯");
     }
+    
     @ApiOperation("我是姚丽")
     @GetMapping("yl")
     public Message yl(){

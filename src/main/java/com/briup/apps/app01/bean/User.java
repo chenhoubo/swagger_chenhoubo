@@ -231,4 +231,11 @@ public class User {
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", realname=" + realname + ", gender=" + gender + ", username=" + username
+				+ ", password=" + password + ", type=" + type + ", status=" + status + "]";
+	}
+    
 }
