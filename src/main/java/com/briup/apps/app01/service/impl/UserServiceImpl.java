@@ -126,5 +126,34 @@ public class UserServiceImpl implements IUserService {
 		userMapper.deleteByPrimaryKey(id);
 	}
 
-	
+	@Override
+	public List<String> login(User user) throws Exception {
+		User username = findUserByUsername(user.getUsername());
+		List<String> list = new ArrayList<>();
+		if(username == null) {
+			list.add("error");
+			list.add("数据库没有当前用户！");
+		}else {
+			if(user.getPassword().equals(username.getPassword())) {
+				list.add("success");
+				list.add("登录成功！");
+			}else {
+				list.add("error");
+				list.add("密码输入错误！");
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public User findUserByUsername(String username) throws Exception {
+		UserExample example = new UserExample();
+		example.createCriteria().andUsernameEqualTo(username);
+		List<User> list = userMapper.selectByExample(example);
+		if(list.size() == 0) {
+			return null;
+		}else {
+			return list.get(0);
+		}
+	}
 }
