@@ -77,4 +77,10 @@ public class UserController {
     public String saveSC(StudentCourse sc) throws Exception{
     	return studentCourseService.saveSC(sc);
     }
+    
+    @ApiOperation("用户登录")
+    @GetMapping("login")
+    public List<String> login(User user) throws Exception{
+        return userService.login(user);
+    }
 }

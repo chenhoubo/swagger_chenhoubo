@@ -34,6 +34,15 @@ public interface IUserService {
     String saveOrUpdate(User user) throws Exception;
 
     /**
+     * @Description: 根据用户username查找出该学生的课程
+     * @Param: []
+     * @return: void
+     * @Author: charles
+     * @Date: 2019-04-18
+     */
+    User findUserByUsername(String username) throws Exception;
+    
+    /**
      * @Description: 根据学生id查找出该学生的课程
      * @Param: []
      * @return: void
@@ -65,4 +74,13 @@ public interface IUserService {
      * @Date: 2019-04-26
      */
     void deleteUserByUserId(Long id) throws Exception;
+    
+    /**
+     * @Description: 用户登录
+     * @Param: []
+     * @return: void
+     * @Author: charles
+     * @Date: 2019-04-26
+     */
+    List<String> login(User user) throws Exception;
 }
