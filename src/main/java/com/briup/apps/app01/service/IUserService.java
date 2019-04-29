@@ -31,7 +31,7 @@ public interface IUserService {
      * @Author: charles 
      * @Date: 2019-04-18 
      */ 
-    String saveOrUpdate(User user) throws Exception;
+    List<String> saveOrUpdate(User user) throws Exception;
 
     /**
      * @Description: 根据用户username查找出该学生的课程

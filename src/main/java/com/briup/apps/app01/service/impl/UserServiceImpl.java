@@ -55,18 +55,23 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String saveOrUpdate(User user) throws Exception {
+    public List<String> saveOrUpdate(User user) throws Exception {
+    	List<String> list = new ArrayList<>();
     	if("student".equals(user.getType()) || "teacher".equals(user.getType())) {
     		if(user.getId() == null){
     			userMapper.insert(user);
-    			return "插入成功";
+    			list.add("success");
+				list.add("插入成功！");
     		} else {
     			userMapper.updateByPrimaryKey(user);
-    			return "更新成功";
+    			list.add("success");
+				list.add("更新成功！");
     		}
     	}else {
-    		return "用户type输入不合法！";
+    		list.add("error");
+			list.add("用户type输入不合法！");
     	}
+    	return list;
     }
 
     @Override
