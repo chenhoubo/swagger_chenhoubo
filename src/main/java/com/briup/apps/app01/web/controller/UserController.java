@@ -7,6 +7,7 @@ import com.briup.apps.app01.service.IStudentCourseService;
 import com.briup.apps.app01.service.IUserService;
 
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,10 @@ public class UserController {
     }
 
     @ApiOperation("保存/更新")
-    @ApiImplicitParam(name = "type", value = "type,只能填写teacher或者student", required = true, paramType="query")
+    @ApiImplicitParams({
+    	@ApiImplicitParam(name = "type", value = "type,只能填写teacher或者student", required = true, paramType="query"),
+    	@ApiImplicitParam(name = "realname", value = "如果是更新数据，这里就不能更改。", required = true, paramType="query")
+    })
     @PostMapping("saveOrUpdate")
     public List<String> saveOrUpdate(User user) throws Exception{
     	return userService.saveOrUpdate(user);

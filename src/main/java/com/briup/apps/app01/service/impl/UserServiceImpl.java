@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,21 +57,42 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<String> saveOrUpdate(User user) throws Exception {
+    	User username = findUserByUsername(user.getUsername());
     	List<String> list = new ArrayList<>();
-    	if("student".equals(user.getType()) || "teacher".equals(user.getType())) {
-    		if(user.getId() == null){
-    			userMapper.insert(user);
-    			list.add("success");
-				list.add("插入成功！");
-    		} else {
-    			userMapper.updateByPrimaryKey(user);
-    			list.add("success");
-				list.add("更新成功！");
-    		}
-    	}else {
-    		list.add("error");
-			list.add("用户type输入不合法！");
-    	}
+		if(username == null){
+			if(user.getId() == null) {
+				if("student".equals(user.getType()) || "teacher".equals(user.getType())) {
+					userMapper.insert(user);
+					list.add("success");
+					list.add("插入成功！");
+				}else {
+					list.add("error");
+					list.add("用户type输入不合法！");
+				}
+			}else {
+				list.add("error");
+				list.add("用户名不存在，更新失败！");
+			}
+		} else if(user.getRealname().equals(username.getRealname())){
+			if(user.getType() != null) {
+				username.setType(user.getType());
+			}
+			if(user.getStatus() != null) {
+				username.setStatus(user.getStatus());
+			}
+			if(user.getGender() != null) {
+				username.setGender(user.getGender());
+			}
+			username.setRealname(user.getRealname());
+			username.setUsername(user.getUsername());
+			username.setPassword(user.getPassword());
+			userMapper.updateByPrimaryKey(username);
+			list.add("success");
+			list.add("更新成功 .！");
+		}else {
+			list.add("error");
+			list.add("此用户名已经注册！");
+		}
     	return list;
     }
 
