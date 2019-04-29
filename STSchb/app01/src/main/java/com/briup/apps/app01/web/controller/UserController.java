@@ -44,7 +44,7 @@ public class UserController {
     @ApiOperation("保存/更新")
     @ApiImplicitParam(name = "type", value = "type,只能填写teacher或者student", required = true, paramType="query")
     @PostMapping("saveOrUpdate")
-    public String saveOrUpdate(User user) throws Exception{
+    public List<String> saveOrUpdate(User user) throws Exception{
     	return userService.saveOrUpdate(user);
     }
     
