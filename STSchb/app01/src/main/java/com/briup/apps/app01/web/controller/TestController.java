@@ -21,7 +21,7 @@ public class TestController {
 	
 	@ApiOperation("获取微信小程序的openid")
 	@ResponseBody
-	@RequestMapping(value = "/getOpenid", method = RequestMethod.GET)
+	@RequestMapping(value = "/getOpenid")
     public Map getOpenid(String code, String encryptedData, String iv ) throws Exception{
 		
 		Map<String,Object> map = new HashMap<String,Object>();
