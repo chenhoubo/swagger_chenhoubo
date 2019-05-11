@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 public class TestController {
 	
 	@ApiOperation("获取微信小程序的openid")
-	@ResponseBody
+//	@ResponseBody
 	@RequestMapping(value = "/getOpenid")
     public Map getOpenid(String code, String encryptedData, String iv ) throws Exception{
 		
