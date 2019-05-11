@@ -68,9 +68,9 @@
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.55</version>
-        </dependency>
+       </dependency>
 	</dependencies>
-
+	
 	<build>
 		<finalName>app01</finalName><!-- 打包的文件名 -->
 		<plugins>
