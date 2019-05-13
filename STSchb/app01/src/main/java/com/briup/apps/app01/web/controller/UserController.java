@@ -5,6 +5,8 @@ import com.briup.apps.app01.bean.StudentCourse;
 import com.briup.apps.app01.bean.User;
 import com.briup.apps.app01.service.IStudentCourseService;
 import com.briup.apps.app01.service.IUserService;
+import com.briup.apps.app01.util.Message;
+import com.briup.apps.app01.util.MessageUtil;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,16 +32,16 @@ public class UserController {
     
     @ApiOperation("查询所有用户")
     @GetMapping("getAllUsers")
-    public List<User> getAllUsers(){
+    public Message getAllUsers(){
         List<User> list = userService.findAll();
-        return list;
+        return MessageUtil.success(list);
     }
 
     @ApiOperation("通过id查找用户")
     @GetMapping("getById")
-    public User getById(Long id) throws Exception{
+    public Message getById(Long id) throws Exception{
         User user = userService.findById(id);
-        return user;
+        return MessageUtil.success(user);
     }
 
     @ApiOperation("保存/更新")
@@ -48,43 +50,43 @@ public class UserController {
     	@ApiImplicitParam(name = "realname", value = "如果是更新数据，这里就不能更改。", required = true, paramType="query")
     })
     @PostMapping("saveOrUpdate")
-    public List<String> saveOrUpdate(User user) throws Exception{
-    	return userService.saveOrUpdate(user);
+    public Message saveOrUpdate(User user) throws Exception{
+    	return MessageUtil.success(userService.saveOrUpdate(user));
     }
     
     @ApiOperation("根据 学生 id查找所有的课程")
     @PostMapping("findCoursesByStudentId")
-    public List<Course> findCoursesByStudentId(Long id) throws Exception{
+    public Message findCoursesByStudentId(Long id) throws Exception{
         List<Course> list = userService.findCoursesByStudentId(id);
-        return list;
+        return MessageUtil.success(list);
     }
     @ApiOperation("根据 教师 id查找所有的课程")
     @PostMapping("findCoursesByTeacherId")
-    public List<Course> findCoursesByTeacherId(Long id) throws Exception{
+    public Message findCoursesByTeacherId(Long id) throws Exception{
         List<Course> list = userService.findCoursesByTeacherId(id);
-        return list;
+        return MessageUtil.success(list);
     }
     @ApiOperation("删除所有的用户")
     @PostMapping("deleteAllUser")
-    public String deleteAllUser() throws Exception{
+    public Message deleteAllUser() throws Exception{
         userService.deleteAllUser();
-        return "删除成功";
+        return MessageUtil.success("删除成功");
     }
     @ApiOperation("根据用户id删除用户")
     @PostMapping("deleteUserByUserId")
-    public String deleteUserByUserId(Long id) throws Exception{
+    public Message deleteUserByUserId(Long id) throws Exception{
         userService.deleteUserByUserId(id);
-        return "删除成功";
+        return MessageUtil.success("删除成功");
     }
     @ApiOperation("学生选课接口")
     @PostMapping("saveSC")
-    public String saveSC(StudentCourse sc) throws Exception{
-    	return studentCourseService.saveSC(sc);
+    public Message saveSC(StudentCourse sc) throws Exception{
+    	return MessageUtil.success(studentCourseService.saveSC(sc));
     }
     
     @ApiOperation("用户登录")
     @GetMapping("login")
-    public List<String> login(User user) throws Exception{
-        return userService.login(user);
+    public Message login(User user) throws Exception{
+        return MessageUtil.success(userService.login(user));
     }
 }
