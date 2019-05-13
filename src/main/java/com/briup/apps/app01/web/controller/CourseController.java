@@ -33,44 +33,45 @@ public class CourseController {
 
     @ApiOperation("查询所有课程信息")
     @GetMapping("getAllCourses")
-    public List<Course> getAllCourses(){
+    public Message getAllCourses(){
         List<Course> list = courseService.findAll();
-        return list;
+        return  MessageUtil.success(list);
     }
 
     
     @ApiOperation(value="获取课程详细信息", notes="根据url的id来获取课程详细信息")
     @ApiImplicitParam(name = "id", value = "课程ID", required = true, dataType = "Long",paramType="query")
     @GetMapping("getById")
-    public Course getById(Long id) throws Exception{
+    public Message getById(Long id) throws Exception{
         Course course = courseService.findById(id);
-        return course;
+        return MessageUtil.success(course);
     }
 
     @ApiOperation("保存更新")
     @ApiImplicitParam(name = "teacherId", value = "只能填写教师id", required = true, paramType="query")
     @PostMapping("saveOrUpdate")
-    public String saveOrUpdate(Course course) throws Exception{
-        return courseService.saveOrUpdate(course);
+    public Message saveOrUpdate(Course course) throws Exception{
+    	String msg = courseService.saveOrUpdate(course);
+        return MessageUtil.success(msg);
     }
     @ApiOperation("根据id删除课程")
     @PostMapping("deleteById")
-    public String deleteById(Long id) throws Exception{
+    public Message deleteById(Long id) throws Exception{
         courseService.deleteById(id);
-        return "删除成功";
+        return MessageUtil.success("删除成功");
     }
     
     @ApiOperation("删除所有课程")
     @PostMapping("deleteAllCourse")
-    public String deleteAllCourse() throws Exception{
+    public Message deleteAllCourse() throws Exception{
         courseService.deleteAllCourse();
-        return "删除成功";
+        return MessageUtil.success("删除成功");
     }
 
     @ApiOperation("根据课程id查询对应的老师")
     @PostMapping("findTeacherBycourseId")
-    public User findTeacherBycourseId(Long id) throws Exception{
+    public Message findTeacherBycourseId(Long id) throws Exception{
         User user = courseService.findTeacherBycourseId(id);
-        return user;
+        return MessageUtil.success(user);
     }
 }

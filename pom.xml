@@ -69,6 +69,17 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.55</version>
        </dependency>
+       <!-- 本地导入到maven中jar  -->
+       <dependency>
+            <groupId>fastjson-1.2.47</groupId>
+            <artifactId>fastjson-1.2.47</artifactId>
+            <version>1.2.47</version>
+       </dependency>
+       <dependency>
+            <groupId>commons-codec-1.9</groupId>
+            <artifactId>commons-codec-1.9</artifactId>
+            <version>1.9</version>
+       </dependency>
 	</dependencies>
 	
 	<build>
