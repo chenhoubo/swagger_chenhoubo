@@ -19,7 +19,7 @@ public class TestController {
 	@ApiOperation("获取微信小程序的openid")
 //	@ResponseBody
 	@RequestMapping(value = "/getOpenid")
-    public Map getOpenid(String code, String encryptedData, String iv ) throws Exception{
+    public Map getOpenid(String code, String encryptedData, String iv, String wxspAppid, String wxspSecret, String grant_type) throws Exception{
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		//code = "081ZExyD0qnP4j2LV5yD0hFLyD0ZExyK";
@@ -30,12 +30,24 @@ public class TestController {
             System.out.println("map1:" + map);
             return map;
         }
-        //小程序唯一标识   (在微信小程序管理后台获取)
-        String wxspAppid = "wxa9d9ad7c4fbd2dfd";
-        //小程序的 app secret (在微信小程序管理后台获取)
-        String wxspSecret = "feff454362ded21ce1cff077d84a890f";
-        //授权（必填）
-        String grant_type = "authorization_code";
+        
+        if(wxspAppid == null && wxspSecret == null) {
+        	//小程序唯一标识   (在微信小程序管理后台获取)
+            wxspAppid = "wxa9d9ad7c4fbd2dfd";
+            //小程序的 app secret (在微信小程序管理后台获取)
+            wxspSecret = "feff454362ded21ce1cff077d84a890f";
+            //授权（必填）
+            grant_type = "authorization_code";
+        }else if(grant_type == null){
+        	grant_type = "authorization_code";
+        	System.out.println("wxspAppid:" + wxspAppid);
+            System.out.println("wxspSecret:" + wxspSecret);
+            System.out.println("grant_type:" + grant_type);
+        }else {
+        	System.out.println("wxspAppid:" + wxspAppid);
+            System.out.println("wxspSecret:" + wxspSecret);
+            System.out.println("grant_type:" + grant_type);
+        }
         //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////
         //请求参数
         String params = "appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + code + "&grant_type=" + grant_type;
@@ -77,4 +89,5 @@ public class TestController {
         System.out.println("map3:" + map);
         return map;
     }
+	
 }
