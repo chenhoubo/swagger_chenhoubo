@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.55</version>
+            <version>1.67</version>
        </dependency>
        <!-- 本地导入到maven中jar  -->
        <dependency>
